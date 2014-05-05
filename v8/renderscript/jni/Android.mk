@@ -3,10 +3,19 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
     android_renderscript_RenderScript.cpp
+ifeq ($(USE_GMS_LIBS),true)
+	LOCAL_MODULE:= librsjni_old
+	LOCAL_SHARED_LIBRARIES := libRSSupport_old
+	LOCAL_REQUIRED_MODULES := libRSSupport_old
+else
+	LOCAL_MODULE:= librsjni
+	LOCAL_SHARED_LIBRARIES := libRSSupport
+	LOCAL_REQUIRED_MODULES := libRSSupport
+endif
 
-LOCAL_SHARED_LIBRARIES := \
-        libRSSupport \
+LOCAL_SHARED_LIBRARIES += \
         libjnigraphics
+
 
 LOCAL_STATIC_LIBRARIES := \
         libcutils \
@@ -23,9 +32,7 @@ LOCAL_CFLAGS +=
 
 LOCAL_LDLIBS := -lpthread
 LOCAL_ADDITIONAL_DEPENDENCIES := $(addprefix $(rs_generated_include_dir)/,rsgApiFuncDecl.h)
-LOCAL_MODULE:= librsjni
 LOCAL_ADDITIONAL_DEPENDENCIES += $(rs_generated_source)
 LOCAL_MODULE_TAGS := optional
-LOCAL_REQUIRED_MODULES := libRSSupport
 
 include $(BUILD_SHARED_LIBRARY)

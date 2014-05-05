@@ -142,7 +142,11 @@ LOCAL_C_INCLUDES += frameworks/compile/libbcc/include
 LOCAL_CFLAGS += $(rs_base_CFLAGS)
 
 LOCAL_LDLIBS := -lpthread -ldl -lm
-LOCAL_MODULE:= libRSSupport
+ifeq ($(USE_GMS_LIBS),true)
+	LOCAL_MODULE:= libRSSupport_old
+else
+	LOCAL_MODULE:= libRSSupport
+endif
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
